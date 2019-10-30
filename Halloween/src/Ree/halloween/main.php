@@ -3,8 +3,10 @@
 namespace Ree\halloween;
 
 use pocketmine\event\inventory\InventoryTransactionEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\item\Item;
@@ -58,5 +60,21 @@ class main extends PluginBase implements Listener
                 }
             }
         }
+    }
+
+    public function onDeath(PlayerDeathEvent $ev)
+    {
+        $p = $ev->getPlayer();
+        $n = $p->getName();
+
+        $p->getArmorInventory()->clear(0);
+    }
+
+    public function onRespawn(PlayerRespawnEvent $ev)
+    {
+        $p = $ev->getPlayer();
+        $n = $p->getName();
+
+        $p->getArmorInventory()->setItem(0, Item::get(Item::PUMPKIN));
     }
 }
